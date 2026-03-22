@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>あさのじゅんび</title>
+  <title>よるのじゅんび</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
-      background: #E3F2FD;
+      background: #E8EAF6;
       color: #333;
       min-height: 100vh;
       padding: 16px;
@@ -29,10 +29,10 @@
       min-width: 48px;
       min-height: 48px;
     }
-    .back-btn:active { background: #BBDEFB; }
+    .back-btn:active { background: #C5CAE9; }
     .header h1 {
       font-size: 28px;
-      color: #1E88E5;
+      color: #5C6BC0;
     }
     .columns {
       display: flex;
@@ -129,7 +129,7 @@
 <body>
   <div class="header">
     <button class="back-btn" onclick="location.href='index.html'">◀ もどる</button>
-    <h1>☀️ あさのじゅんび</h1>
+    <h1>🌙 よるのじゅんび</h1>
   </div>
   <div class="columns">
     <div class="column nami">
@@ -154,18 +154,15 @@
     const TASKS_BY_USER = {
       nami: [
         '🍚 ごはんをたべる',
-        '💦 かおをあらう',
         '🪥 はをみがく',
-        '👕 きがえをする',
-        '🧴 ローションをぬる',
-        '☀️ サンスクリーンをぬる',
-        '🎒 リュックのなかみをいれる',
+        '🎹 ピアノ',
+        '🛁 おふろ',
+        '📖 おべんきょう',
       ],
       rina: [
         '🍚 ごはんをたべる',
-        '💦 かおをあらう',
         '🪥 はをみがく',
-        '👕 きがえをする',
+        '🛁 おふろ',
       ],
     };
 
@@ -178,7 +175,7 @@
     }
 
     function storageKey(user) {
-      return `morning_checklist_${user}`;
+      return `night_checklist_${user}`;
     }
 
     function loadState(user) {
