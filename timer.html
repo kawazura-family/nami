@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ごはんタイマー</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+      background: #E8F5E9;
+      color: #333;
+      min-height: 100vh;
+      padding: 16px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .back-btn {
+      font-size: 18px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 12px;
+      min-width: 48px;
+      min-height: 48px;
+    }
+    .back-btn:active { background: #C8E6C9; }
+    .header h1 {
+      font-size: 28px;
+      color: #43A047;
+    }
+    .columns {
+      display: flex;
+      gap: 28px;
+      max-width: 740px;
+      margin: 0 auto;
+    }
+    .column {
+      flex: 1;
+      min-width: 0;
+      border-radius: 20px;
+      padding: 16px 12px;
+    }
+    .column.nami {
+      border: 3px solid #90CAF9;
+      background: rgba(187, 222, 251, 0.2);
+    }
+    .column.rina {
+      border: 3px solid #F48FB1;
+      background: rgba(248, 187, 208, 0.2);
+    }
+    .column-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 16px;
+      padding: 8px;
+      border-radius: 12px;
+    }
+    .column.nami .column-title {
+      background: #BBDEFB;
+      color: #1565C0;
+    }
+    .column.rina .column-title {
+      background: #F8BBD0;
+      color: #C2185B;
+    }
+    .timer-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+    .timer-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      border: none;
+      font-size: 32px;
+      font-weight: bold;
+      cursor: pointer;
+      color: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    .timer-btn:active {
+      transform: scale(0.95);
+    }
+    .timer-btn.plus {
+      background: #43A047;
+    }
+    .timer-btn.minus {
+      background: #E53935;
+    }
+    .timer-display {
+      text-align: center;
+      font-size: 48px;
+      font-weight: bold;
+      font-variant-numeric: tabular-nums;
+      padding: 8px 0;
+    }
+    .timer-display.negative {
+      color: #E53935;
+    }
+    .total-area {
+      max-width: 740px;
+      margin: 24px auto 0;
+      text-align: center;
+    }
+    .total-label {
+      font-size: 20px;
+      font-weight: bold;
+      color: #43A047;
+      margin-bottom: 4px;
+    }
+    .total-display {
+      font-size: 48px;
+      font-weight: bold;
+      font-variant-numeric: tabular-nums;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <button class="back-btn" onclick="location.href='index.html'">◀ もどる</button>
+    <h1>🍽️ ごはんタイマー</h1>
+  </div>
+  <div class="columns">
+    <div class="column nami">
+      <div class="column-title">🐬 なみ</div>
+      <div class="timer-buttons">
+        <button class="timer-btn plus" onclick="start('nami', 1)">+</button>
+        <button class="timer-btn minus" onclick="start('nami', -1)">−</button>
+      </div>
+      <div class="timer-display" id="timer-nami">00:00</div>
+    </div>
+    <div class="column rina">
+      <div class="column-title">🌸 りな</div>
+      <div class="timer-buttons">
+        <button class="timer-btn plus" onclick="start('rina', 1)">+</button>
+        <button class="timer-btn minus" onclick="start('rina', -1)">−</button>
+      </div>
+      <div class="timer-display" id="timer-rina">00:00</div>
+    </div>
+  </div>
+  <div class="total-area">
+    <div class="total-label">⏱ トータル</div>
+    <div class="total-display" id="timer-total">00:00</div>
+  </div>
+
+  <script>
+    const seconds = { nami: 0, rina: 0 };
+    const timers = { nami: null, rina: null };
+    let totalSeconds = 0;
+    let totalTimer = null;
+
+    function formatTime(s) {
+      const abs = Math.abs(s);
+      const mm = String(Math.floor(abs / 60)).padStart(2, '0');
+      const ss = String(abs % 60).padStart(2, '0');
+      return (s < 0 ? '-' : '') + mm + ':' + ss;
+    }
+
+    function updateDisplay(user) {
+      const el = document.getElementById(`timer-${user}`);
+      el.textContent = formatTime(seconds[user]);
+      el.classList.toggle('negative', seconds[user] < 0);
+    }
+
+    function startTotal() {
+      if (totalTimer) return;
+      const el = document.getElementById('timer-total');
+      totalTimer = setInterval(() => {
+        totalSeconds++;
+        el.textContent = formatTime(totalSeconds);
+      }, 1000);
+    }
+
+    function start(user, direction) {
+      clearInterval(timers[user]);
+      timers[user] = setInterval(() => {
+        seconds[user] += direction;
+        updateDisplay(user);
+      }, 1000);
+      startTotal();
+    }
+  </script>
+</body>
+</html>
