@@ -73,7 +73,7 @@
     .timer-buttons {
       display: flex;
       justify-content: center;
-      gap: 50px;
+      gap: 20px;
       margin-bottom: 12px;
     }
     .timer-btn {
@@ -94,6 +94,10 @@
     }
     .timer-btn.plus {
       background: #43A047;
+    }
+    .timer-btn.stop {
+      background: #757575;
+      font-size: 36px;
     }
     .timer-btn.minus {
       background: #E53935;
@@ -137,6 +141,7 @@
       <div class="timer-buttons">
         <button class="timer-btn plus" onclick="start('nami', 1)">+</button>
         <button class="timer-btn minus" onclick="start('nami', -1)">−</button>
+        <button class="timer-btn stop" onclick="stop('nami')">■</button>
       </div>
       <div class="timer-display" id="timer-nami">00:00</div>
     </div>
@@ -145,6 +150,7 @@
       <div class="timer-buttons">
         <button class="timer-btn plus" onclick="start('rina', 1)">+</button>
         <button class="timer-btn minus" onclick="start('rina', -1)">−</button>
+        <button class="timer-btn stop" onclick="stop('rina')">■</button>
       </div>
       <div class="timer-display" id="timer-rina">00:00</div>
     </div>
@@ -189,6 +195,11 @@
         updateDisplay(user);
       }, 1000);
       startTotal();
+    }
+
+    function stop(user) {
+      clearInterval(timers[user]);
+      timers[user] = null;
     }
   </script>
 </body>
